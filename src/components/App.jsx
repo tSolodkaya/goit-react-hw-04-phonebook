@@ -1,24 +1,15 @@
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
-import { useEffect, useState } from 'react';
+import { useLocalStorage } from 'hooks/useLocalStorage';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
 import css from './App.module.css';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) ?? []
-  );
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    } catch (error) {
-      console.error('Set state error: ', error.message);
-    }
-  }, [contacts]);
 
   const addContact = ({ name, number }) => {
     const isContactInBook = contacts.some(
