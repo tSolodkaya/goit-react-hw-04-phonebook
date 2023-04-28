@@ -5,15 +5,15 @@ export const useLocalStorage = (key, defaultValue) => {
     try {
       return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue;
     } catch (error) {
-      console.error('', error.message);
+      console.error('Get state error:', error.message);
     }
   });
   useEffect(() => {
     try {
+      window.localStorage.setItem(key, JSON.stringify(state));
     } catch (error) {
-      console.error('', error.message);
+      console.error('Set state error:', error.message);
     }
-    window.localStorage.setItem(key, JSON.stringify(state));
   }, [state, key]);
   return [state, setState];
 };
